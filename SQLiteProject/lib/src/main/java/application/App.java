@@ -1,5 +1,6 @@
 package application;
 
+import java.lang.*;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -7,9 +8,9 @@ public class App {
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		
-		//creo matrices para insertar datos varios, no uno por uno
-		int[] ids = {0,1,2};   //columna id
-		String [] names = {"Bere", "Teo", "Lore"}; //columna name
+		
+		int[] ids = {0,1,2};   
+		String[] names = {"Bere", "Teo", "Lore"}; 
 		
 		Class.forName("org.sqlite.JDBC");
 		
@@ -17,11 +18,10 @@ public class App {
 		
 		var conn = DriverManager.getConnection(dbUrl);
 		var stmt = conn.createStatement();      
-		
-        var sql = "Create table if not exists user (id integer primary key, name text not null)";
-        stmt.execute(sql);
+		conn.setAutoCommit(false);
+       
         
-        sql = "insert into user (id, name) values (?, ?)";
+        var sql = "insert into user (id, name) values (?, ?)";
         var insertStmt = conn.prepareStatement(sql);
         
         for(int i=0; i<ids.length; i++) {
@@ -29,7 +29,10 @@ public class App {
         	insertStmt.setString(2,names[i]);
         	
         	insertStmt.executeUpdate();
+        	
         }
+        
+        conn.commit();
         
        insertStmt.close();
         
@@ -43,8 +46,7 @@ public class App {
         	
         }
         
-        sql = "drop table user";
-        stmt.execute(sql);
+        
         
         stmt.close();
 		
