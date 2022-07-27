@@ -1,4 +1,5 @@
 package application;
+import java.sql.DriverManager;
 
 import java.lang.*;
 import java.sql.DriverManager;
@@ -20,15 +21,17 @@ public class App {
 		var stmt = conn.createStatement();      
 		conn.setAutoCommit(false);
        
+        var sql = "create table if not exists user (id integer primary key,name text not null)";
+        stmt.execute(sql);
         
-        var sql = "insert into user (id, name) values (?, ?)";
+        sql = "insert into user (id, name) values (?, ?)";
         var insertStmt = conn.prepareStatement(sql);
         
         for(int i=0; i<ids.length; i++) {
         	insertStmt.setInt(1,ids[i]);
         	insertStmt.setString(2,names[i]);
         	
-        	insertStmt.executeUpdate();
+        	
         	
         }
         

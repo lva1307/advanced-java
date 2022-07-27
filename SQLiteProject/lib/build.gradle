@@ -17,9 +17,9 @@ repositories {
 }
 
 dependencies {
-   // https://mvnrepository.com/artifact/mysql/mysql-connector-java
-   implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.29'
-
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.29'
+  
 
     // https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
     implementation 'org.xerial:sqlite-jdbc:3.36.0.3'
