@@ -1,5 +1,6 @@
 package application;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 import java.lang.*;
 import java.sql.DriverManager;
@@ -13,25 +14,20 @@ public class App {
 		int[] ids = {0,1,2};   
 		String[] names = {"Bere", "Teo", "Lore"}; 
 		
-		Class.forName("org.sqlite.JDBC");
+		Class.forName("com.mysql.cj.jdbc.Driver");
 		
-		String dbUrl = "jdbc:sqlite:people.db";
+		String dbUrl = "jdbc:mysql://localhost:3306/people";
 		
-		var conn = DriverManager.getConnection(dbUrl);
+		var conn = DriverManager.getConnection(dbUrl, "root", "1234");
 		var stmt = conn.createStatement();      
 		conn.setAutoCommit(false);
-       
-        var sql = "create table if not exists user (id integer primary key,name text not null)";
-        stmt.execute(sql);
-        
-        sql = "insert into user (id, name) values (?, ?)";
+         
+        var sql = "insert into user (id, name) values (?,?)";
         var insertStmt = conn.prepareStatement(sql);
         
         for(int i=0; i<ids.length; i++) {
         	insertStmt.setInt(1,ids[i]);
         	insertStmt.setString(2,names[i]);
-        	
-        	
         	
         }
         
@@ -48,7 +44,6 @@ public class App {
         	System.out.println(id + ":" + name);
         	
         }
-        
         
         
         stmt.close();
